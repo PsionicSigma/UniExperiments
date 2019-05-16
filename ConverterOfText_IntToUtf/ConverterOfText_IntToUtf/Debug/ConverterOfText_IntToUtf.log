@@ -1,0 +1,4 @@
+﻿  ConverterOfText_IntToUtf.cpp
+c:\users\namai\desktop\justo failai\vs2017\converteroftext_inttoutf\converteroftext_inttoutf\converteroftext_inttoutf.cpp(63): warning C4018: '<=': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\converteroftext_inttoutf\converteroftext_inttoutf\converteroftext_inttoutf.cpp(76): warning C4018: '<': signed/unsigned mismatch
+  ConverterOfText_IntToUtf.vcxproj -> C:\Users\Namai\Desktop\Justo failai\VS2017\ConverterOfText_IntToUtf\Debug\ConverterOfText_IntToUtf.exe
