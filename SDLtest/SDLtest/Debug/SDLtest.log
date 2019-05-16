@@ -1,0 +1,30 @@
+﻿  SDLtest.cpp
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(185): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(186): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(385): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(386): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(418): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(419): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(468): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(469): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(493): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(494): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(507): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(514): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(572): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(573): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(583): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(584): warning C4244: '+=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(585): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(596): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(597): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(612): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(641): warning C4018: '<': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(651): warning C4018: '<': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(652): warning C4018: '<': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(692): warning C4018: '<': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(703): warning C4018: '<': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(707): warning C4018: '<': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(711): warning C4018: '<': signed/unsigned mismatch
+c:\users\namai\desktop\justo failai\vs2017\sdltest\sdltest\sdltest.cpp(721): warning C4018: '<': signed/unsigned mismatch
+  SDLtest.vcxproj -> C:\Users\Namai\Desktop\Justo failai\VS2017\SDLtest\Debug\SDLtest.exe
