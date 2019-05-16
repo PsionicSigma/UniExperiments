@@ -1,0 +1,4 @@
+﻿  ShipsOfBattle_DemoV.cpp
+c:\users\namai\desktop\justo failai\vs2017\shipsofbattle_demov\shipsofbattle_demov\shipsofbattle_demov.cpp(277): warning C4101: 'tempcordX': unreferenced local variable
+c:\users\namai\desktop\justo failai\vs2017\shipsofbattle_demov\shipsofbattle_demov\shipsofbattle_demov.cpp(443): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  ShipsOfBattle_DemoV.vcxproj -> C:\Users\Namai\Desktop\Justo failai\VS2017\ShipsOfBattle_DemoV\Debug\ShipsOfBattle_DemoV.exe
