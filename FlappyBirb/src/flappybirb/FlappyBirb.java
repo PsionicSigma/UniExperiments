@@ -1,4 +1,5 @@
 package flappybirb;
+import Tools.*;
 
 import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
@@ -15,127 +16,163 @@ import javafx.stage.Stage;
 
 public class FlappyBirb extends Application {
 
-    private Birb Player = new Birb(130, 170, 230, 270, -5);
+    private Birb player = Birb.getInstance();
     private ArrayList<Pipe> Pipes = new ArrayList();
-    private boolean Space_Pressed = false;
-    private int Score_Counter = 0;
-    private int Pipe_Velocity = 5;
-    private int Pipe_Gap = 80;
-    private int Last_Pipe_Gap_Y = 250;
-    private int Peace_Period = 0;
+    private boolean spacePressed = false;
+    private boolean running = false;
+    private boolean canAccelerate = false;
+    private int score = 0;
+    private int pipeVelocity = 5;
+    private int pipeGap = 80;
+    private int lastPipeGapY = 250;
+    private int peacePeriod = 0;
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage GameStage) {
+    public void start(Stage gameStage) {
 
-        GameStage.setTitle("FlappyBirb");
-        Group RootGroup = new Group();
-        Canvas GameCanvas = new Canvas(300, 500);
-        RootGroup.getChildren().add(GameCanvas);
-        Scene GameScene = new Scene(RootGroup);
-        GameScene.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SPACE) {
-                Player.flap();
+        gameStage.setTitle("FlappyBirb");
+
+        Group rootGroup = new Group();
+
+        Canvas gameCanvas = new Canvas(HardDataContainer.canvasWidth, HardDataContainer.canvasHeight);
+
+        GraphicsContext gc = gameCanvas.getGraphicsContext2D();
+
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(1);
+        Font theFont = Font.font("Calibri", FontWeight.BOLD, 50);
+        gc.setFont(theFont);
+
+        rootGroup.getChildren().add(gameCanvas);
+
+        Scene gameScene = new Scene(rootGroup);
+
+        gameScene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE && running) {
+                if (!spacePressed) {
+                    player.flap();
+                    spacePressed = true;
+                }
+            } else if (event.getCode() == KeyCode.SPACE && !running) {
+                gc.setStroke(Color.WHITE);
+                gc.setFill(Color.WHITE);
+                gc.fillText("Game ended", 20, 150);
+                gc.strokeText("Press SPACE\n      to flap", 10, 150);
+                gc.setStroke(Color.BLACK);
+                running = true;
             }
         });
-        GameStage.setScene(GameScene);
+        gameScene.setOnKeyReleased(event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                spacePressed = false;
+            }
+        });
 
-        GraphicsContext GContext = GameCanvas.getGraphicsContext2D();
+        gameStage.setScene(gameScene);
 
-        GContext.setStroke(Color.BLACK);
-        GContext.setLineWidth(1);
-        Font theFont = Font.font("Calibri", FontWeight.BOLD, 50);
-        GContext.setFont(theFont);
-
+        player.draw(gc);
+        gc.setFill(Color.WHITE);
+        gc.fillText("Press SPACE\n      to flap", 10, 150);
+        gc.strokeText("Press SPACE\n      to flap", 10, 150);
         new AnimationTimer() {
             public void handle(long currentNanoTime) {
-
-                UpdateAll(GContext, currentNanoTime);
-                GContext.setFill(Color.WHITE);
-                GContext.fillText(Integer.toString(Score_Counter), 140, 75);
-                GContext.strokeText(Integer.toString(Score_Counter), 140, 75);
-                if (checkForGameEnd()) {
-                    stop();
-                    GContext.setFill(Color.WHITE);
-                    GContext.fillText("Game ended", 20, 150);
-                    GContext.strokeText("Game ended", 20, 150);
+                if (running) {
+                    updateAllObjects(gc, currentNanoTime);
+                    gc.setFill(Color.WHITE);
+                    gc.fillText(Integer.toString(score), 140, 75);
+                    gc.strokeText(Integer.toString(score), 140, 75);
+                    if (checkForGameEnd()) {
+                        stop();
+                        gc.setFill(Color.WHITE);
+                        gc.fillText("Game ended", 20, 150);
+                        gc.strokeText("Game ended", 20, 150);
+                    }
                 }
-
             }
         }.start();
-        GameStage.show();
+
+        gameStage.show();
     }
 
     public boolean checkForGameEnd() {
         for (Pipe p : Pipes) {
-            if (Player.collides_With(p)) {
+            if (player.collidesWith(p)) {
                 return true;
             }
         }
-        if (Player.getY0() < 0 || Player.getY1() > 500) {
+        if (player.getY0() < 0 || player.getY1() > HardDataContainer.canvasHeight) {
             return true;
         }
         return false;
     }
 
-    public void UpdateAll(GraphicsContext GC, long nanoTime) {
-        long TempNanoTimer = System.nanoTime();
-        Player.unDraw(GC);
-        Player.move();
-        Player.draw(GC);
+    public void updateAllObjects(GraphicsContext gc, long nanoTime) {
+        long tempNanoTimer = System.nanoTime();
+        player.unDraw(gc);
+        player.move();
+        player.draw(gc);
         for (Pipe p : Pipes) {
-            p.unDraw(GC);
+            p.unDraw(gc);
             p.move();
             if (p.getX1() > 0) {
-                p.draw(GC);
+                p.draw(gc);
             }
         }
-        if (GetPipeAvailability() && Peace_Period >= 100) {
-            AddPipes();
+        if (getPipeAvailability() && peacePeriod >= HardDataContainer.peaceTime) {
+            addPipes();
         } else {
-            Peace_Period++;
+            peacePeriod++;
         }
-        if (Score_Counter % 10 == 0 && (TempNanoTimer - nanoTime) / 1000000000 > 1) {
-            AccelerateGame();
+        if (score % 10 == 0) {
+            if (canAccelerate) {
+                accelerateGame();
+                canAccelerate = false;
+            }
+        } else {
+            canAccelerate = true;
         }
     }
 
-    public void AccelerateGame() {
-        Pipe_Velocity += 30;
+    public void accelerateGame() {
+        pipeVelocity += HardDataContainer.pipeAcceleration;
         for (Pipe p : Pipes) {
             p.accelerate();
         }
-        Pipe_Gap -= 20;
-    }
-
-    public void AddPipes() {
-        Pipes.add(new Pipe(300, 300 + 60, 0, (Last_Pipe_Gap_Y - Pipe_Gap), Pipe_Velocity));
-        Pipes.add(new Pipe(300, 300 + 60, (Last_Pipe_Gap_Y + Pipe_Gap), 500, Pipe_Velocity));
-        Last_Pipe_Gap_Y += (int) (Math.random() * (80) - 40);
-        if (Last_Pipe_Gap_Y - Pipe_Gap < 20) {
-            Last_Pipe_Gap_Y = Pipe_Gap + 20;
-        }
-        if (Last_Pipe_Gap_Y + Pipe_Gap > 480) {
-            Last_Pipe_Gap_Y = 480 - Pipe_Gap;
+        if (pipeGap > 0 + pipeGap / 2) {
+            pipeGap -= HardDataContainer.gapDecrease;
         }
     }
 
-    public boolean GetPipeAvailability() {
-        int Last_Pipe_X = 0;
+    public void addPipes() {
+        Pipes.add(new Pipe(HardDataContainer.pipeStartX0, HardDataContainer.pipeStartX1, HardDataContainer.pipeStartY0Top, (lastPipeGapY - pipeGap), pipeVelocity));
+        Pipes.add(new Pipe(HardDataContainer.pipeStartX0, HardDataContainer.pipeStartX1, (lastPipeGapY + pipeGap), HardDataContainer.pipeStartY1Bottom, pipeVelocity));
+        lastPipeGapY += (int) (Math.random() * (pipeGap) - pipeGap / 2);
+        if (lastPipeGapY - pipeGap < HardDataContainer.topPipeGapBorder) {
+            lastPipeGapY = pipeGap + HardDataContainer.topPipeGapBorder;
+        }
+        if (lastPipeGapY + pipeGap > HardDataContainer.bottomPipeGapBorder) {
+            lastPipeGapY = HardDataContainer.bottomPipeGapBorder - pipeGap;
+        }
+    }
+
+    public boolean getPipeAvailability() {
+        int lastPipeX = 0;
         for (Pipe p : Pipes) {
-            if (Last_Pipe_X < p.getX1()) {
-                Last_Pipe_X = p.getX1();
+            if (lastPipeX < p.getX1()) {
+                lastPipeX = p.getX1();
             }
         }
-        if (Last_Pipe_X < 150 && Peace_Period >= 100) {
-            Score_Counter++;
+        if (lastPipeX < HardDataContainer.canvasWidth / 2 && peacePeriod >= HardDataContainer.peaceTime) {
+            if (!Pipes.isEmpty()) {
+                score++;
+            }
             return true;
         } else {
             return false;
         }
     }
-
 }

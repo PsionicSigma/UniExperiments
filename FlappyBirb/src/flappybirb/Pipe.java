@@ -1,12 +1,10 @@
 package flappybirb;
+import Tools.*;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-
-public class Pipe extends Game_Object {
+public class Pipe extends GameObject {
 
     public Pipe(int x0, int x1, int y0, int y1, int initVel) {
-        super(x0, x1, y0, y1, initVel);
+        super(x0, x1, y0, y1, initVel, new PipePainter(), new PipeMover());
     }
 
     public int getX0() {
@@ -50,24 +48,13 @@ public class Pipe extends Game_Object {
     }
 
     public void accelerate() {
-        velocity += 30;
+        velocity += HardDataContainer.pipeAcceleration;
     }
 
     @Override
     public void move() {
-        x0 -= velocity;
+        x0 = moveBehavior.move(velocity, x0, y0, x1, y1);
         x1 = x0 + 60;
     }
 
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setFill(Color.GREEN);
-        gc.fillRect(x0, y0, x1 - x0, y1 - y0);
-    }
-
-    @Override
-    public void unDraw(GraphicsContext gc) {
-        gc.setFill(Color.WHITE);
-        gc.fillRect(x0, y0, x1 - x0, y1 - y0);
-    }
 }

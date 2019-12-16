@@ -1,12 +1,16 @@
 package flappybirb;
+import Tools.*;
 
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+public class Birb extends GameObject implements CollisionChecker<Pipe> {
 
-public class Birb extends Game_Object implements Collideable<Pipe> {
+    private static Birb player = new Birb(HardDataContainer.birbStartX0, HardDataContainer.birbStartX1, HardDataContainer.birbStartY0, HardDataContainer.birbStartY1, HardDataContainer.birbInitVel);
 
-    public Birb(int x0, int x1, int y0, int y1, int initVel) {
-        super(x0, x1, y0, y1, initVel);
+    private Birb(int x0, int x1, int y0, int y1, double initVel) {
+        super(x0, x1, y0, y1, initVel, new BirbPainter(), new BirbMover());
+    }
+
+    public static Birb getInstance() {
+        return player;
     }
 
     public int getX0() {
@@ -42,11 +46,11 @@ public class Birb extends Game_Object implements Collideable<Pipe> {
     }
 
     public double getInitial_Velocity() {
-        return Initial_Velocity;
+        return initialVelocity;
     }
 
     public void setInitial_Velocity(int Initial_Velocity) {
-        this.Initial_Velocity = Initial_Velocity;
+        this.initialVelocity = Initial_Velocity;
     }
 
     public double getVelocity() {
@@ -58,30 +62,18 @@ public class Birb extends Game_Object implements Collideable<Pipe> {
     }
 
     public void flap() {
-        velocity = Initial_Velocity;
-    }
-
-    @Override
-    public void draw(GraphicsContext gc) {
-        gc.setFill(Color.YELLOW);
-        gc.fillRect(x0, y0, x1 - x0, y1 - y0);
-    }
-
-    @Override
-    public void unDraw(GraphicsContext gc) {
-        gc.setFill(Color.WHITE);
-        gc.fillRect(x0, y0, x1 - x0, y1 - y0);
+        velocity = initialVelocity;
     }
 
     @Override
     public void move() {
-        y0 = y0 + (int) velocity;
-        y1 = y0 + 40;
+        y0 = moveBehavior.move(velocity, x0, y0, x1, y1);
+        y1 = y0 + HardDataContainer.birbHeight;
         velocity = velocity + 0.2;
     }
 
     @Override
-    public boolean collides_With(Pipe Target_Pipe) {
+    public boolean collidesWith(Pipe Target_Pipe) {
         if ((this.x0 > Target_Pipe.x0 && this.x0 < Target_Pipe.x1) && (this.y0 > Target_Pipe.y0 && this.y0 < Target_Pipe.y1)) {
             return true;
         }
